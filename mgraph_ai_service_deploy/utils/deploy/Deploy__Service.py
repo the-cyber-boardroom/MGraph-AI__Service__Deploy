@@ -1,6 +1,6 @@
 from osbot_fast_api_serverless.deploy.Deploy__Serverless__Fast_API  import Deploy__Serverless__Fast_API
-from mgraph_ai_service_base.config                                  import SERVICE_NAME, LAMBDA_DEPENDENCIES__BASE__SERVICE
-from mgraph_ai_service_base.fast_api.lambda_handler                 import run
+from mgraph_ai_service_deploy.config                                  import SERVICE_NAME, LAMBDA_DEPENDENCIES__BASE__SERVICE
+from mgraph_ai_service_deploy.fast_api.lambda_handler                 import run
 
 class Deploy__Service(Deploy__Serverless__Fast_API):
 
