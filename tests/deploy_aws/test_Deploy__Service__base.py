@@ -1,7 +1,7 @@
 import pytest
 from osbot_utils.utils.Misc                                        import list_set
 from osbot_fast_api_serverless.deploy.Deploy__Serverless__Fast_API import DEFAULT__ERROR_MESSAGE__WHEN_FAST_API_IS_OK
-from mgraph_ai_service_deploy.config                                 import LAMBDA_DEPENDENCIES__BASE__SERVICE
+from mgraph_ai_service_deploy.config                                 import LAMBDA_DEPENDENCIES__DEPLOY__SERVICE
 from mgraph_ai_service_deploy.utils.Version                          import version__mgraph_ai_service_deploy
 from mgraph_ai_service_deploy.utils.deploy.Deploy__Service           import Deploy__Service
 
@@ -26,7 +26,7 @@ class test_Deploy__Service__base():     # Base class for deployment tests - over
 
     def test_2__upload_dependencies(self):
         upload_results = self.deploy_fast_api.upload_lambda_dependencies_to_s3()
-        assert list_set(upload_results) == LAMBDA_DEPENDENCIES__BASE__SERVICE
+        assert list_set(upload_results) == LAMBDA_DEPENDENCIES__DEPLOY__SERVICE
 
     def test_3__create(self):
         assert self.deploy_fast_api.create() is True

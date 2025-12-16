@@ -1,10 +1,11 @@
-from unittest                                                             import TestCase
-from osbot_fast_api.utils.Fast_API__Server_Info                           import Fast_API__Server_Info
-from osbot_utils.utils.Misc                                               import list_set
-from mgraph_ai_service_deploy.service.info.Service_Info                     import Service_Info
-from mgraph_ai_service_deploy.service.info.schemas.Enum__Service_Status     import Enum__Service_Status
-from mgraph_ai_service_deploy.service.info.schemas.Schema__Service__Status  import Schema__Service__Status
-from mgraph_ai_service_deploy.utils.Version                                 import version__mgraph_ai_service_deploy
+from unittest                                                                import TestCase
+from osbot_fast_api.utils.Fast_API__Server_Info                              import Fast_API__Server_Info
+from osbot_fast_api_serverless.services.info.Service_Info                    import Service_Info
+from osbot_fast_api_serverless.services.info.schemas.Enum__Service_Status    import Enum__Service_Status
+from osbot_fast_api_serverless.services.info.schemas.Schema__Service__Status import Schema__Service__Status
+from osbot_fast_api_serverless.utils.Version import version__osbot_fast_api_serverless
+from osbot_utils.utils.Misc                                                  import list_set
+from mgraph_ai_service_deploy.utils.Version                                  import version__mgraph_ai_service_deploy
 
 
 class test_Server_Info(TestCase):
@@ -19,9 +20,9 @@ class test_Server_Info(TestCase):
     def test_status(self):
         with self.server_info.service_info() as _:
             assert type(_)       == Schema__Service__Status
-            assert _.name        == 'mgraph_ai_service_deploy'
+            assert _.name        == 'osbot_fast_api_serverless'
             assert _.status      == Enum__Service_Status.operational
-            assert _.version     == version__mgraph_ai_service_deploy
+            assert _.version     == version__osbot_fast_api_serverlessx
             assert _.environment == self.server_info.environment()
 
     def test_versions(self):
