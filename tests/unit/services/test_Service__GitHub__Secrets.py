@@ -7,7 +7,7 @@ from osbot_utils.type_safe.Type_Safe                                            
 from osbot_utils.type_safe.primitives.core.Safe_UInt                                            import Safe_UInt
 from osbot_utils.utils.Objects                                                                  import base_classes
 from starlette.testclient                                                                       import TestClient
-from mgraph_ai_service_deploy.services                                                          import Service__Public_Keys
+from mgraph_ai_service_deploy.services.Service__Public_Keys                                     import Service__Public_Keys
 from mgraph_ai_service_deploy.services.Service__GitHub__Secrets                                 import Service__GitHub__Secrets
 from mgraph_ai_service_deploy.schemas.common.Schema__Rate_Limit                                 import Schema__Rate_Limit
 from mgraph_ai_service_deploy.schemas.common.Schema__Response__Operation                        import Schema__Response__Operation
