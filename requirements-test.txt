@@ -9,5 +9,5 @@ pytest-cov
 httpx
 requests
 
-# for local-stack support (uncomment to enabled it)
-# osbot_local_stack
+# for github service testing
+mgraph-ai-service-github

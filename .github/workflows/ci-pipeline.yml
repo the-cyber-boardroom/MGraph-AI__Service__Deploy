@@ -32,7 +32,7 @@ on:
         required: false
 
 env:
-  PACKAGE_NAME: 'mgraph_ai_service_base'
+  PACKAGE_NAME: 'mgraph_ai_service_deploy'
 
 jobs:
   run-tests:
@@ -110,5 +110,11 @@ jobs:
           AWS_ACCESS_KEY_ID             : ${{ secrets.AWS_ACCESS_KEY_ID }}
           FAST_API__AUTH__API_KEY__NAME : ${{ secrets.FAST_API__AUTH__API_KEY__NAME }}
           FAST_API__AUTH__API_KEY__VALUE: ${{ secrets.FAST_API__AUTH__API_KEY__VALUE }}
+
+          URL__TARGET_SERVER__GITHUB_SERVICE            : ${{ secrets.URL__TARGET_SERVER__GITHUB_SERVICE             }}
+          AUTH__TARGET_SERVER__GITHUB_SERVICE__KEY_NAME : ${{ secrets.AUTH__TARGET_SERVER__GITHUB_SERVICE__KEY_NAME  }}
+          AUTH__TARGET_SERVER__GITHUB_SERVICE__KEY_VALUE: ${{ secrets.AUTH__TARGET_SERVER__GITHUB_SERVICE__KEY_VALUE }}
+
+
         with:
           target: ${{ inputs.target_deploy }}
