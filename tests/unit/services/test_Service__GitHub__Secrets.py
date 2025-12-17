@@ -63,9 +63,10 @@ class test_Service__GitHub__Secrets(TestCase):
             assert 'github.dev.mgraph.ai' in str(_.github_service_url)
             assert _.request_timeout == 30
             assert _.http_client     is None                                    # Default is None (uses requests)
-            assert _.obj()           == __(github_service_url ='https://github.dev.mgraph.ai',
-                                           request_timeout   = 30                            ,
-                                           http_client       = None                          )
+            assert _.obj()           == __(github_service_url     ='https://github.dev.mgraph.ai' ,
+                                           request_timeout        = 30                            ,
+                                           http_client            = None                          ,
+                                           auth_external_services = __()                          )
 
     def test__init__with_http_client(self):                                     # Test initialization with injected client
         with self.service_github_secrets as _:

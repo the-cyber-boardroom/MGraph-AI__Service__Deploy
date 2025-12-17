@@ -16,7 +16,7 @@ class Deploy__Service__Fast_API(Serverless__Fast_API):
         return super().setup()
 
     def setup_routes(self):
-        self.add_routes(Routes__Info                      )
-        self.add_routes(Routes__Set_Cookie                )
         self.add_routes(Routes__Public_Keys               )
         self.add_routes(Routes__Operations__GitHub__Secrets)
+        self.add_routes(Routes__Info                      )
+        self.add_routes(Routes__Set_Cookie                )

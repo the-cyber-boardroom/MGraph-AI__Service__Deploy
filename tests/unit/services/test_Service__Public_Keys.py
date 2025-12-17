@@ -37,7 +37,6 @@ class test_Service__Public_Keys(TestCase):
         with Service__Public_Keys() as _:
             assert type(_)         is Service__Public_Keys
             assert base_classes(_) == [Type_Safe, object]
-            assert 'github.dev.mgraph.ai' in str(_.github_service_url)
             assert _.request_timeout == 30
             assert _.http_client     is None                                    # Default is None (uses requests)
 

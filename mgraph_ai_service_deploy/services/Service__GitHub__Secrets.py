@@ -1,9 +1,8 @@
+import requests
+import time
 from typing                                                                             import Dict, Any, Optional
 from osbot_utils.type_safe.Type_Safe                                                    import Type_Safe
 from osbot_utils.type_safe.primitives.domains.web.safe_str.Safe_Str__Url                import Safe_Str__Url
-import requests
-import time
-
 from mgraph_ai_service_deploy.config                                                    import GITHUB_SERVICE_URL
 from mgraph_ai_service_deploy.schemas.common.Schema__Rate_Limit                         import Schema__Rate_Limit
 from mgraph_ai_service_deploy.schemas.common.Schema__Response__Operation                import Schema__Response__Operation
@@ -12,12 +11,14 @@ from mgraph_ai_service_deploy.schemas.github.Schema__Request__GitHub__Secrets__G
 from mgraph_ai_service_deploy.schemas.github.Schema__Request__GitHub__Secrets__Exists   import Schema__Request__GitHub__Secrets__Exists
 from mgraph_ai_service_deploy.schemas.github.Schema__Request__GitHub__Secrets__Create   import Schema__Request__GitHub__Secrets__Create
 from mgraph_ai_service_deploy.schemas.github.Schema__Request__GitHub__Secrets__Delete   import Schema__Request__GitHub__Secrets__Delete
+from mgraph_ai_service_deploy.services.Auth__External_Services                          import Auth__External_Services
 
 
 class Service__GitHub__Secrets(Type_Safe):
-    github_service_url : Safe_Str__Url = Safe_Str__Url(GITHUB_SERVICE_URL)  # GitHub Service base URL
-    request_timeout    : int           = 30                                 # HTTP request timeout in seconds
-    http_client        : Optional[Any] = None                               # Optional HTTP client (TestClient for tests)
+    github_service_url     : Safe_Str__Url = Safe_Str__Url(GITHUB_SERVICE_URL)  # GitHub Service base URL
+    request_timeout        : int           = 30                                 # HTTP request timeout in seconds
+    http_client            : Optional[Any] = None                               # Optional HTTP client (TestClient for tests)
+    auth_external_services : Auth__External_Services                            # External service auth config
 
     def list_secrets(self, request: Schema__Request__GitHub__Secrets__List  # List all secrets in a repository
                      ) -> Schema__Response__Operation:
@@ -128,24 +129,37 @@ class Service__GitHub__Secrets(Type_Safe):
     # ═══════════════════════════════════════════════════════════════════════════
 
     def call_github_service(self,                                           # Make POST request to GitHub Service
-                            endpoint: str ,                                 # todo: fix the Type_Safety of these params
+                            endpoint: str ,                                 # todo: fix the type safety of these params
                             payload : Dict[str, Any]
                        ) -> Dict[str, Any]:
         if self.http_client:                                                # Use injected client (for tests)
             response = self.http_client.post(endpoint, json=payload)
         else:                                                               # Use requests (production)
-            url      = f"{self.github_service_url}{endpoint}"
-            response = requests.post(url, json=payload, timeout=self.request_timeout)
+            auth_config = self.auth_external_services.config__graph_service()
+            if auth_config.enabled:
+                target_server = auth_config.target_server
+                headers       = {auth_config.key_name: auth_config.key_value}
+                url           = f"{target_server}{endpoint}"
+                response      = requests.post(url, json=payload, headers=headers, timeout=self.request_timeout)
+            else:
+                raise Exception("GitHub Service auth not configured")
         return response.json()
 
-    def call_github_service_delete(self, endpoint: str                      # Make DELETE request to GitHub Service
-                                   , payload: Dict[str, Any]
-                                   ) -> Dict[str, Any]:
+    def call_github_service_delete(self,                                    # Make DELETE request to GitHub Service
+                                   endpoint: str,
+                                   payload : Dict[str, Any]
+                              ) -> Dict[str, Any]:
         if self.http_client:                                                # Use injected client (for tests)
             response = self.http_client.request("DELETE", endpoint, json=payload)
         else:                                                               # Use requests (production)
-            url      = f"{self.github_service_url}{endpoint}"
-            response = requests.delete(url, json=payload, timeout=self.request_timeout)
+            auth_config = self.auth_external_services.config__graph_service()
+            if auth_config.enabled:
+                target_server = auth_config.target_server
+                headers       = {auth_config.key_name: auth_config.key_value}
+                url           = f"{target_server}{endpoint}"
+                response      = requests.delete(url, json=payload, headers=headers, timeout=self.request_timeout)
+            else:
+                raise Exception("GitHub Service auth not configured")
         return response.json()
 
     # ═══════════════════════════════════════════════════════════════════════════
