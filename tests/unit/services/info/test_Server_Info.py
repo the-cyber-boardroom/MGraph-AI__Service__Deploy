@@ -22,7 +22,7 @@ class test_Server_Info(TestCase):
             assert type(_)       == Schema__Service__Status
             assert _.name        == 'osbot_fast_api_serverless'
             assert _.status      == Enum__Service_Status.operational
-            assert _.version     == version__osbot_fast_api_serverlessx
+            assert _.version     == version__osbot_fast_api_serverless
             assert _.environment == self.server_info.environment()
 
     def test_versions(self):

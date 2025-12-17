@@ -1,0 +1,1 @@
+from mgraph_ai_service_deploy.utils.Version import Version, version__mgraph_ai_service_deploy

@@ -6,7 +6,9 @@ from osbot_fast_api_serverless.fast_api.routes.Routes__Info           import ROU
 from osbot_utils.utils.Env                                            import get_env
 from starlette.testclient                                             import TestClient
 from mgraph_ai_service_deploy.fast_api.Deploy__Service__Fast_API      import Deploy__Service__Fast_API
-from tests.unit.Deploy__Service__Fast_API__Test_Objs                  import setup__deploy_service__fast_api_test_objs, Deploy_Service__Fast_API__Test_Objs, TEST_API_KEY__NAME
+from mgraph_ai_service_deploy.fast_api.routes.Routes__Operations__GitHub__Secrets import ROUTES_PATHS__OPERATIONS_GITHUB_SECRETS
+from mgraph_ai_service_deploy.fast_api.routes.Routes__Public_Keys import ROUTES_PATHS__PUBLIC_KEYS
+from tests.unit.Deploy__Service__Fast_API__Test_Objs                  import setup__deploy_service__fast_api_test_objs, Deploy__Service__Fast_API__Test_Objs, TEST_API_KEY__NAME
 
 
 class test_Service__Fast_API__client(TestCase):
@@ -21,11 +23,10 @@ class test_Service__Fast_API__client(TestCase):
 
     def test__init__(self):
         with self.service_fast_api_test_objs as _:
-            assert type(_)                  is Deploy_Service__Fast_API__Test_Objs
+            assert type(_)                  is Deploy__Service__Fast_API__Test_Objs
             assert type(_.fast_api        ) is Deploy__Service__Fast_API
             assert type(_.fast_api__app   ) is FastAPI
             assert type(_.fast_api__client) is TestClient
-            #assert type(_.local_stack     ) is Local_Stack
             assert self.fast_api            == _.fast_api
             assert self.client              == _.fast_api__client
 
@@ -48,11 +49,9 @@ class test_Service__Fast_API__client(TestCase):
         assert auth_key_value                is not None
         assert response__with_auth.json()    == ROUTES_INFO__HEALTH__RETURN_VALUE
 
-    # def test__check_if_local_stack_is_setup(self):
-    #     skip__if_not__in_github_actions()
-    #     with self.service_fast_api_test_objs.local_stack as _:
-    #         assert _.is_local_stack_configured_and_available() is True
 
     def test__config_fast_api_routes(self):
-        assert self.fast_api.routes_paths() == sorted(ROUTES_PATHS__INFO          +
-                                                      EXPECTED_ROUTES__SET_COOKIE )
+        assert self.fast_api.routes_paths() == sorted(ROUTES_PATHS__INFO                      +
+                                                      EXPECTED_ROUTES__SET_COOKIE             +
+                                                      ROUTES_PATHS__OPERATIONS_GITHUB_SECRETS +
+                                                      ROUTES_PATHS__PUBLIC_KEYS               )

@@ -18,4 +18,5 @@ class Version(Type_Safe):
         version = file_contents(self.path_version_file()) or ""
         return Safe_Str__Version(version)
 
+
 version__mgraph_ai_service_deploy = Version().value()
