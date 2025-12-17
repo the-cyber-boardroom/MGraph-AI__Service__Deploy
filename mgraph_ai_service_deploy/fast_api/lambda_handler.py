@@ -7,6 +7,7 @@ if os.getenv('AWS_REGION'):                                                     
 
     load_dependencies(LAMBDA_DEPENDENCIES__DEPLOY__SERVICE)
 
+
     def clear_osbot_modules():                                                  # Clean up after dependency loading
         import sys
         for module in list(sys.modules):
